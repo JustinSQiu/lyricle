@@ -40,7 +40,7 @@ function getGuess() {
 	guessarray.unshift(x);
 	if (x.toLowerCase() === answer.toLowerCase()) {
 		guessdisplay.innerHTML = "";
-		display.innerHTML = "You have won! The song was " + answer + ".";
+		correctness.innerHTML = "You have won! The song was " + answer + ".";
 		won = true;
 	}
 	numguesses.innerHTML = "Number of Guesses Used: " + guessarray.length;

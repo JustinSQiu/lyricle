@@ -1,6 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	
+<style>
+	
+html {
+  max-width: 1200px;
+  margin: auto;
+  overflow-x: scroll;
+}
+	
+body {
+  background-color:black;
+}	
+
+h1 {
+  background-color: tomato;
+  padding: 30px;
+  text-align: center;
+  font-size: 40px;
+  width: 1070px;
+  color: white;
+  float: center;
+}
+input {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:left;
+  font-size: 20px;
+  color: tomato;
+}
+	
+button {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:right;
+  font-size: 20px;
+  color: tomato;
+}
+	
+aside {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:left;
+  font-size: 16px;
+  color: tomato;
+  width: 320px;
+  height: 592px;
+  overflow-y: scroll;
+}
+	
+section {
+  background-color: lightyellow;
+  text-align: left;
+  float:left;
+  font-size: 20px;
+  color: black;
+  width: 800px;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+</style>
+
 <head>
 <title>Lyricle</title>	
 	
@@ -8,20 +71,38 @@
 
 <body style="font-family:courier;">
 	
-	<h1 style = "color:blue" >Lyricle Demo</h1>
-
-	<input type="text" id="guessBox" value="">
+	<h1 style = "color:lightyellow" >Lyricle Demo</h1>
 	
+		
+	<section>
+	
+	<p id="lyrics"></p>
+				
+	</section>
+	
+	<aside>
+		
+	<br>
+		
 	<button id = "guessButton">Guess</button>
 	
-	<span id = "numGuesses">Number of Guesses Used: 0</span>
+	<input type="text" id="guessBox" value="">
 	
-	<p id="correctness"></p>
+	<br><br><br>
 	
+	<p1 id = "numGuesses">Number of Guesses Used: 0</p1>
 	
-	<p id="lyrics">Song Lyrics</p>
+	<br><br>
+	
+	<p2 id="correctness"></p2>
+	
+	<br><br>
+	
+	<p2 id="guesses">Guesses:</p2>
+			
+	</aside>
 
-	<p id="guesses">Guesses:</p>
+
 	<!--	<p>Paragraph for testing:</p> <p id="testparagraph">AAAA</p>-->
 	
 	<script src="script.js" type="module"></script>	
