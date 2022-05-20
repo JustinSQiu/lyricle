@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-var paragraph = "I'm so glad you made time to see me\nHow's life? Tell me, how's your family?\nI haven't seen them in a while\nYou've been good, busier than ever\nWe small talk, work and the weather\nYour guard is up and I know why\nBecause the last time you saw me\nIs still burned in the back of your mind\nYou gave me roses and I left them there to die\nSo this is me swallowin' my pride\nStandin' in front of you sayin' I'm sorry for that night\nAnd I go back to December all the time\nIt turns out freedom ain't nothin' but missin' you\nWishin' I'd realized what I had when you were mine\nI'd go back to December, turn around and make it alright\nI go back to December all the time\nThese days, I haven't been sleepin'\nStayin' up playin' back myself leavin'\nWhen your birthday passed and I didn't call\nThen I think about summer, all the beautiful times\nI watched you laughin' from the passenger's side\nAnd realized I loved you in the fall\nAnd then the cold came, the dark days\nWhen fear crept into my mind\nYou gave me all your love and all I gave you was goodbye\nSo this is me swallowin' my pride\nStandin' in front of you sayin' I'm sorry for that night\nAnd I go back to December all the time\nIt turns out freedom ain't nothin' but missin' you\nWishin' I'd realized what I had when you were mine\nI'd go back to December, turn around and change my own mind\nI go back to December all the time\nI miss your tan skin, your sweet smile\nSo good to me, so right\nAnd how you held me in your arms that September night\nThe first time you ever saw me cry\nMaybe this is wishful thinkin'\nProbably mindless dreamin'\nBut if we loved again, I swear I'd love you right\nI'd go back in time and change it, but I can't\nSo if the chain is on your door, I understand\nBut this is me swallowin' my pride\nStandin' in front of you sayin' I'm sorry for that night\nAnd I go back to December\nIt turns out freedom ain't nothin' but missin' you\nWishin' I'd realized what I had when you were mine\nI'd go back to December, turn around and make it alright\nI'd go back to December, turn around and change my own mind\nI go back to December all the time\nAll the time";
+var paragraph = "I could stay awake just to hear you breathing\nWatch you smile while you are sleeping\nWhile you're far away and dreaming\nI could spend my life in this sweet surrender\nI could stay lost in this moment forever\nEvery moment spent with you is a moment I treasure\nDon't want to close my eyes\nI don't want to fall asleep\n'Cause I'd miss you baby\nAnd I don't want to miss a thing\n'Cause even when I dream of you\nThe sweetest dream will never do\nI'd still miss you baby\nAnd I don't want to miss a thing\nLying close to you, feeling your heart beating\nAnd I'm wondering what you're dreaming\nWondering if it's me you're seeing\nThen I kiss your eyes\nAnd thank God we're together\nAnd I just want to stay with you in this moment forever\nForever and ever\nI don't want to close my eyes\nI don't want to fall asleep\n'Cause I'd miss you baby\nAnd I don't want to miss a thing\n'Cause even when I dream of you\nThe sweetest dream will never do\nI'd still miss you baby\nAnd I don't want to miss a thing\nI don't want to miss one smile\nAnd I don't want to miss one kiss\nAnd I just want to be with you\nRight here with you, just like this\nAnd I just want to hold you close\nI feel your heart so close to mine\nAnd just stay here in this moment\nFor all the rest of time\nYeah, yeah, yeah, yeah, yeah\nDon't want to close my eyes\nDon't want to fall asleep\n'Cause I'd miss you baby\nAnd I don't want to miss a thing\n'Cause even when I dream of you (even when I dream)\nThe sweetest dream will never do\nI'd still miss you baby\nAnd I don't want to miss a thing\nI don't want to close my eyes\nI don't want to fall asleep\n'Cause I'd miss you baby\nAnd I don't want to miss a thing\n'Cause even when I dream of you\nThe sweetest dream will never do\nI'd still miss you baby\nAnd I don't want to miss a thing\nDon't want to close my eyes\nI don't want to fall asleep, yeah\nAnd I don't want to miss a thing";
 
 var paragraphlines = paragraph.split("\n");
 var paragrapharray = [];
@@ -11,6 +11,7 @@ var guessdisplay = document.getElementById("correctness");
 var guessbox = document.getElementById("guessBox");
 var numguesses = document.getElementById("numGuesses");
 var guesslist = document.getElementById("guesses");
+var correctness = document.getElementById("correctness");
 
 for (i; i < paragraphlines.length; i += 1) {
 	paragraphlines[i] = paragraphlines[i].replace(/'/g, "1011001110");
@@ -25,7 +26,7 @@ for (i; i < paragraphlines.length; i += 1) {
 
 var guessarray = [];
 var current = [];
-var answer = "Back to December";
+var answer = "I Don't Want to Miss A Thing";
 var won = false;
 
 function getGuess() {
@@ -43,8 +44,8 @@ function getGuess() {
 		correctness.innerHTML = "You have won! The song was " + answer + ".";
 		won = true;
 	}
-	numguesses.innerHTML = "Number of Guesses Used: " + guessarray.length;
-	guesslist.innerHTML = "Guesses: ";
+	numguesses.innerHTML = "Guesses Used: " + guessarray.length;
+	guesslist.innerHTML = "Guesses List: ";
 	for (j; j >= 0; j -= 1) {
 		guesslist.innerHTML = guesslist.innerHTML + guessarray[j] + ", ";
 	}
