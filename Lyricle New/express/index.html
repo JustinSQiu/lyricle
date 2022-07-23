@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+<style>
+	
+html {
+  max-width: 1200px;
+  margin: auto;
+}
+	
+body {
+  background-color:black;
+}	
+
+h1 {
+  background-color: tomato;
+  padding: 30px;
+  text-align: center;
+  font-size: 40px;
+  width: 1070px;
+  color: lightyellow;
+  float: center;
+}
+
+input {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:left;
+  font-size: 20px;
+  color: tomato;
+}
+	
+button {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:right;
+  font-size: 20px;
+  color: tomato;
+}
+	
+aside {
+  background-color: lightyellow;
+  padding: 4px;
+  text-align: left;
+  float:left;
+  font-size: 16px;
+  color: tomato;
+  width: 314px;
+  height: 592px;
+  overflow-y: scroll;
+}
+	
+section {
+  background-color: lightyellow;
+  text-align: left;
+  float:left;
+  font-size: 20px;
+  padding-left: 8px;
+  color: black;
+  width: 800px;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+</style>
+
+<head>
+	
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lyricle</title>	
+	
+</head>
+
+<body style="font-family:courier;">
+	
+	<h1>Lyricle Demo</h1>
+	
+	<section> <p id="lyrics"></p> </section>
+	
+	<aside> <br> 
+		
+	<button id = "guessButton">Guess</button>
+  
+	<input type="text" id="guessBox" value="">
+	
+	<br><br><br>
+	
+	<p1 id = "numGuesses">Guesses Used: 0</p1>   <button id = "rst">Reset!</button>
+	
+	<br><br>
+	
+	<p2 id="correctness"></p2>
+	
+	<br><br>
+	
+	<p2 id="guesses">Guess List:</p2>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+  
+  <input type="file" id="uploadFile" accept=".csv"/>   
+			
+	</aside>
+	
+	<script>
+
+//Set Vars
+
+var display = document.getElementById("lyrics");
+var button = document.getElementById("guessButton");
+var guessdisplay = document.getElementById("correctness");
+var guessbox = document.getElementById("guessBox");
+var numguesses = document.getElementById("numGuesses");
+var guesslist = document.getElementById("guesses");
+var correctness = document.getElementById("correctness");
+var rst = document.getElementById("rst");
+
+  async function ReadFile(file) {
+    return await file.text()
+  }
+
+  function removeExtraSpace(stringData) {
+    stringData = stringData.replace(/,( *)/gm, ",")  // remove extra space
+    stringData = stringData.replace(/^ *| *$/gm, "") // remove space on the beginning and end.
+    return stringData  
+  }
+
+//Get Guess from Text Box, Update Guess Array
+function getGuess(guessarray, answer) {
+	"use strict";
+	var x = guessbox.value, i = 0, j;
+	for (i; i < guessarray.length; i += 1) {
+		if (guessarray[i].toLowerCase() === x.toLowerCase()) {
+			guessarray.splice(i, 1);
+		}
+	}
+	j = guessarray.length;
+	guessarray.unshift(x);
+	if (x.toLowerCase() == answer.toLowerCase() || x == "REDPILL") {
+		guessdisplay.innerHTML = "";
+		correctness.innerHTML = "You have won! The song was " + answer + ".";
+		won = true;
+	}
+	numguesses.innerHTML = "Guesses Used: " + guessarray.length;
+	guesslist.innerHTML = "Guesses List: ";
+	for (j; j >= 0; j -= 1) {
+		guesslist.innerHTML = guesslist.innerHTML + guessarray[j] + ", ";
+	}
+  return guesslist;
+}
+
+//Print New Paragraph
+function printParagraph(guess, current, paragrapharray) {
+	"use strict";
+	guess += "";
+	var i = 0, div = document.createElement("div"), linebreak, container;
+	for (i; i < paragrapharray.length; i += 1) {
+		linebreak = document.createElement("br");
+		if (paragrapharray[i] === "\n") {
+			div.appendChild(linebreak);
+		} else if (paragrapharray[i].match(/^[.,:;!?]/)) {
+			div.appendChild(document.createTextNode(paragrapharray[i]));
+		} else if (guess.toLowerCase() === paragrapharray[i].toLowerCase()) {
+			container = document.createElement("span");
+			container.appendChild(document.createTextNode(" " + current[i]));
+			container.style.color = "red";
+			div.appendChild(container);
+		} else {
+			div.appendChild(document.createTextNode(" " + current[i]));
+		}
+	}
+	display.appendChild(div);
+}
+
+//Set Up Paragraph
+function setup(paragrapharray) {
+  var current = [];
+	"use strict";
+	var i = 0, j;
+	for (i; i < paragrapharray.length; i += 1) {
+		j = 0;
+		current.push("");
+		for (j; j < paragrapharray[i].length; j += 1) {
+			current[i] += "_";
+		}
+	}
+  return current;
+}
+
+//Update Paragraph After Guess
+function updater(guess) {
+	"use strict";
+	var i = 0, correct = false;
+	for (i; i < paragrapharray.length; i += 1) {
+		if (paragrapharray[i].toLowerCase() === guess.toLowerCase()) {
+			if (!won) {
+				guessdisplay.innerHTML = "Your guess was in the song!";
+			}
+			correct = true;
+			current[i] = paragrapharray[i];
+		}
+		if (!correct && !won) {
+			guessdisplay.innerHTML = "Your guess was not in the song.";
+		}
+	}
+}
+
+//Randomize Song
+function randomizer(songList) {
+      var songNum = Math.floor(Math.random() * 93) + 1;
+      var songsSearched = 0;
+      var curSongNum = 0;
+      var song = "";
+      var i = 1;
+      for (i; songsSearched < songNum; i++) {
+          if (songList[i][3] != curSongNum) {
+            curSongNum = songList[i][3];
+            songsSearched ++;
+          }
+      }
+      i --;
+      while (songList[i+1][3] == songList[i][3]) {
+        song += songList[i][4];
+        song += "\n";
+        i++;
+      }
+      song += songList[i][4];
+      answer = songList[i][2];
+      return song;
+    }
+
+
+//Add Event Listeners
+button.addEventListener("click", function () {
+	"use strict";
+	getGuess(guessarray, answer);
+  updater(guessarray[0]);
+  display.removeChild(display.lastElementChild);
+  printParagraph(guessarray[0], current, paragrapharray);
+});
+
+guessbox.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    button.click();
+  }
+});
+
+rst.addEventListener("click", function () {
+  "use strict";
+  start(randomizer(songList));
+});
+
+window.onload = () => {
+  display.innerHTML = "Please insert the csv file to begin playing. If you suspect a data parsing issue guess \"REDPILL\" to reveal the answer."
+  const inputFile = document.getElementById("uploadFile")
+  inputFile.onchange = () => {
+    const inputValue = inputFile.value
+    if (inputValue === "") {
+      return
+    }
+
+    const selectedFile = document.getElementById('uploadFile').files[0]
+    const promise = new Promise(resolve => {
+      const fileContent = ReadFile(selectedFile)
+      resolve(fileContent)
+    })
+
+    promise.then(fileContent => {
+      fileContent = removeExtraSpace(fileContent)
+      songList = $.csv.toArrays(fileContent)
+      start(randomizer(songList));
+    })
+  }
+}
+
+var guessarray = [];
+var answer = "";
+var won = false;
+var paragrapharray = [];
+var current = "";
+var songList;
+
+function start(song) {
+  display.innerHTML = "";
+  guessarray = [];
+  current = "";
+  var paragraph = song;
+  won = false;
+
+  guessdisplay.innerHTML = "";
+  numguesses.innerHTML = "Guesses Used: " + guessarray.length;
+  guesslist.innerHTML = "";
+  correctness.innerHTML = "";
+
+  var paragraphlines = paragraph.split("\n");
+  paragrapharray = [];
+  var i = 0;
+
+  for (i; i < paragraphlines.length; i += 1) {
+    paragraphlines[i] = paragraphlines[i].replace(/'/g, "1011001110");
+    var j = 0;
+    var linewords = paragraphlines[i].split(/\s*\b\s*/);
+    for (j; j < linewords.length; j += 1) {
+      linewords[j] = linewords[j].replace(/1011001110/g, "'");
+      paragrapharray.push(linewords[j]);
+    }
+    paragrapharray.push("\n");
+  }
+
+  current = setup(paragrapharray);
+  printParagraph("", current, paragrapharray);
+}
+  </script>	
+
+</body>
+</html>
